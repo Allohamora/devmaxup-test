@@ -8,21 +8,24 @@ const { router } = controller;
 
 router.get('/', async (req, res) => {
   const result = await User.findAll();
+  const reply = response(res);
 
-  res.send(result);
+  reply({ success: true, message: 'List of users', data: result });
 });
 
-router.post('/', async (req, res) => {
+router.post('/new', async (req, res) => {
   const { body } = req;
 
   const reply = response(res);
 
-  const isValid = await userSchema.isValid(body);
+  const user = { ...body, id: undefined };
+
+  const isValid = await userSchema.isValid(user);
 
   if( !isValid ) return reply({ success: false,  message: 'not Valid' });
 
   try {
-    await User.create(body);
+    await User.create(user);
   } catch (e) {
     return reply({ success: false, message: 'error with saving!', data: e });
   }

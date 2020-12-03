@@ -1,8 +1,10 @@
 const express = require('express');
 const users = require('./users');
+const posts = require('./posts');
 
 const apiRoutes = [
-  users
+  users,
+  posts
 ];
 
 const apiRouter = express.Router();
