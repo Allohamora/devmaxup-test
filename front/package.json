@@ -1,0 +1,21 @@
+{
+  "name": "front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel ./public/template.html --out-dir ./build",
+    "clear-build": "rm -rf build",
+    "prebuild": "npm run clear-build",
+    "prestart": "npm run clear-build",
+    "build": "parcel build ./public/template.html --out-dir ./build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "parcel": "^1.12.4",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
