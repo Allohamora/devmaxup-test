@@ -24,4 +24,15 @@ const response = (res) => ({
   });
 };
 
-module.exports = response;
+/**
+ * 
+ * @param {express.Response} res 
+ */
+const responseServerError = (res) => {
+  response(res)({ success: false, message: 'Server Error!', code: 500 })
+};
+
+module.exports = {
+  response,
+  responseServerError,
+};

@@ -1,29 +1,83 @@
-const Post = require("../models/Post");
-const createController = require("../utils/createController");
-const response = require("../utils/response");
-const postSchema = require("../validation/post");
+const Post = require('../models/Post');
+const createController = require('../utils/createController');
+const { response, responseServerError } = require('../utils/response');
+const { postSchema, postUpdateSchema } = require('../validation/post');
+const { error } = require('../utils/logger');
 
-const controller = createController('/users');
+const controller = createController('/posts');
 const { router } = controller;
 
-router.post('/:userId/posts/new', async (req, res) => {
-  const { params, body } = req;
-  const { userId } = params;
+router.get('/:userId', async (req, res) => {
   const reply = response(res);
 
-  const post = { userId, ...body, id: undefined };
+  try {
+    const { params } = req;
+    const { userId } = params;
 
-  const isValid = await postSchema.isValid(post);
+    let result;
 
-  if( !isValid ) return reply({ success: false, message: 'Invalid body data!' });
+    try {
+      result = await Post.findAll({ where: { userId } });
+    } catch (e) {
+      return reply({ success: false, message: 'Error with posts!', data: e });
+    }
+
+    reply({ success: true, message: `List of ${userId} posts!`, data: result });
+  } catch (e) {
+    error(e);
+    return responseServerError(res);
+  }
+});
+
+router.post('/', async (req, res) => {
+  const reply = response(res);
 
   try {
-    await Post.create(post);
-  } catch (e) {
-    return reply({ success: false, message: 'Error with creating', data: e });
-  }
+    const { body } = req;
+  
+    const post = { ...body, id: undefined };
+  
+    let result;
+  
+    try {
+      await postSchema.validate(post);
 
-  reply({ success: true, message: 'Success created!' });
+      result = await Post.create(post);
+    } catch (e) {
+      return reply({ success: false, message: 'Error with creating', data: e });
+    }
+  
+    reply({ success: true, message: `Success created! Id: ${result.dataValues.id}` });
+  } catch (e) {
+    error(e);
+    return responseServerError(res);
+  }
+});
+
+router.put('/', async (req, res) => {
+  const reply = response(res);
+
+  try {
+    const { body } = req;
+  
+    const post = { ...body };
+  
+    try {
+      await postUpdateSchema.validate(post);
+
+      await Post.update(
+        post, 
+        { where: { id: post.id } }
+      );
+    } catch (e) {
+      return reply({ success: false, message: 'Error with updating', data: e });
+    }
+  
+    reply({ success: true, message: `Success updated! Id: ${post.id}` });
+  } catch (e) {
+    error(e);
+    return responseServerError(res);
+  }
 });
 
 module.exports = controller;
