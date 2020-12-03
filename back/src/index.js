@@ -1,15 +1,14 @@
 const express = require('express');
 const sequelize = require('./sequelize');
-const User = require('./models/user');
+const apiRouter = require('./controllers');
+const dotenv = require('dotenv');
 
-const PORT = 3000;
+dotenv.config();
+const {PORT} = process.env;
 
 const app = express();
 
-app.get('/', async (req, res) => {
-  await User.create({ name: Math.random() });
-  res.send(JSON.stringify(await User.findAll()));
-});
+app.use('/api', apiRouter);
 
 (async () => {
   // force === drop old tables

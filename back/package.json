@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,8 @@
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
-    "@types/sequelize": "^4.28.9"
+    "@types/sequelize": "^4.28.9",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.6"
   }
 }
