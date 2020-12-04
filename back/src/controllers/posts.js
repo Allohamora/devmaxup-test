@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const EditLog = require('../models/EditLog');
 const createController = require('../utils/createController');
 const { response, responseServerError } = require('../utils/response');
 const { postSchema, postUpdateSchema } = require('../validation/post');
@@ -19,7 +20,7 @@ router.get('/:userId', async (req, res) => {
     try {
       result = await Post.findAll({ where: { userId } });
     } catch (e) {
-      return reply({ success: false, message: 'Error with posts!', data: e });
+      return reply({ success: false, message: 'Error with finded posts!', data: e });
     }
 
     reply({ success: true, message: `List of ${userId} posts!`, data: result });
@@ -61,19 +62,27 @@ router.put('/', async (req, res) => {
     const { body } = req;
   
     const post = { ...body };
+
+    const { id, userId } = post;
   
     try {
       await postUpdateSchema.validate(post);
 
       await Post.update(
         post, 
-        { where: { id: post.id } }
+        { where: { id } }
       );
     } catch (e) {
       return reply({ success: false, message: 'Error with updating', data: e });
     }
   
-    reply({ success: true, message: `Success updated! Id: ${post.id}` });
+    try {
+      await EditLog.create({ postId: id, userId });
+    } catch (e) {
+      error(e);
+    }
+
+    reply({ success: true, message: `Success updated! Id: ${id}` });
   } catch (e) {
     error(e);
     return responseServerError(res);

@@ -1,6 +1,6 @@
-const createController = require('../utils/createController');
 const User = require('../models/User');
 const userSchema = require('../validation/user');
+const createController = require('../utils/createController');
 const { response, responseServerError } = require('../utils/response');
 const { error } = require('../utils/logger');
 
@@ -20,22 +20,24 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/new', async (req, res) => {
+router.post('/', async (req, res) => {
   const reply = response(res);
 
   try {
     const { body } = req;
   
     const user = { ...body, id: undefined };
+
+    let result;
   
     try {
       await userSchema.validate(user);
-      await User.create(user);
+      result = await User.create(user);
     } catch (e) {
       return reply({ success: false, message: 'error with creating!', data: e });
     }
   
-    reply({ success: true, message: 'success added!' });
+    reply({ success: true, message: `User with id ${result.dataValues.id} success added!` });
   } catch (e) {
     error(e);
     return responseServerError(res);
