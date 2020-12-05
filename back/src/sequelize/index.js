@@ -6,7 +6,7 @@ const sequelize = new Sequelize({
   define: {
     timestamps: false
   },
-  logging: console.log
+  logging: false
 });
 
 module.exports = sequelize;
