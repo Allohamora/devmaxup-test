@@ -4,7 +4,7 @@ const getTimestamp = require('../utils/getTimestamp');
 const Post = require('./Post');
 const User = require('./User');
 
-const EditLog = sequelize.define('edit-logs', {
+const EditPostLog = sequelize.define('edit-logs', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -18,7 +18,7 @@ const EditLog = sequelize.define('edit-logs', {
   }
 });
 
-EditLog.belongsTo(Post, { onDelete: 'CASCADE' });
-EditLog.belongsTo(User, { onDelete: 'CASCADE' });
+EditPostLog.belongsTo(Post, { onDelete: 'CASCADE' });
+EditPostLog.belongsTo(User, { onDelete: 'CASCADE' });
 
-module.exports = EditLog;
+module.exports = EditPostLog;

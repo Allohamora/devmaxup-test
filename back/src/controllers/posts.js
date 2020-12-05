@@ -1,5 +1,5 @@
 const Post = require('../models/Post');
-const EditLog = require('../models/EditLog');
+const EditPostLog = require('../models/EditPostLog');
 const createController = require('../utils/createController');
 const routeDecorator = require('../utils/routeDecorator');
 const { postSchema, postUpdateSchema } = require('../validation/post');
@@ -63,7 +63,7 @@ router.put('/', routeDecorator(async ({ req, reply }) => {
   }
 
   try {
-    await EditLog.create({ postId: id, userId });
+    await EditPostLog.create({ postId: id, userId });
   } catch (e) {
     error(e);
   }
