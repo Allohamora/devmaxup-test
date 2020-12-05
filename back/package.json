@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
+    "start:front": "cross-env FRONT=true node ./src/index.js",
     "dev": "nodemon ./src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0",

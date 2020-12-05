@@ -1,0 +1,31 @@
+{
+  "name": "devmaxup-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dependencies:front": "cd ./front && npm i -D",
+    "dependencies:back": "cd ./back && npm i -D",
+    "dependencies": "npm i -D && npm run dependencies:back && npm run dependencies:front",
+    "dev:front": "cd ./front && npm run dev",
+    "dev:back": "cd ./back && npm run dev",
+    "dev": "concurrently \"npm run dev:front\" \"npm run dev:back\"",
+    "build:front": "cd ./front && npm run build",
+    "start:back-front": "cd ./back && npm run start:front",
+    "start": "npm run build:front && npm run start:back-front"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Allohamora/devmaxup-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Allohamora/devmaxup-test/issues"
+  },
+  "homepage": "https://github.com/Allohamora/devmaxup-test#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
+}

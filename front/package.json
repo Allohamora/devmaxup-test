@@ -2,13 +2,13 @@
   "name": "front",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./public/index.html",
   "scripts": {
-    "start": "parcel ./public/template.html --out-dir ./build",
+    "dev": "parcel ./public/index.html --out-dir ./build",
     "clear-build": "rm -rf build",
     "prebuild": "npm run clear-build",
-    "prestart": "npm run clear-build",
-    "build": "parcel build ./public/template.html --out-dir ./build"
+    "predev": "npm run clear-build",
+    "build": "parcel build ./public/index.html --out-dir ./build"
   },
   "keywords": [],
   "author": "",
