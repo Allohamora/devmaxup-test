@@ -6,14 +6,14 @@ const path = require('path');
 const routeDecorator = require('./utils/routeDecorator');
 
 dotenv.config();
-const { PORT, FRONT } = process.env;
+const { PORT, NODE_ENV } = process.env;
 
 const app = express();
 
 app.use(express.json());
 app.use('/api', apiRouter);
 
-if( FRONT ) {
+if( NODE_ENV === 'production' ) {
   const frontBuildPath = path.join(__dirname, '../../', 'front/build');
   const indexHtmlPath = path.join(frontBuildPath, 'index.html');
 
