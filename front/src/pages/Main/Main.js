@@ -1,17 +1,22 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import Page from '../../components/Page';
 
 const Main = () => {
   return (
-    <Button 
-      variant="contained"
-      color="primary"
-      component={Link} 
-      to="/users" 
-    >
-      to /users
-    </Button>
+    <Page>
+      <Box padding={3} >
+        <Button 
+          variant="contained"
+          color="primary"
+          component={Link} 
+          to="/users" 
+        >
+          to /users
+        </Button>
+      </Box>
+    </Page>
   );
 };
 
