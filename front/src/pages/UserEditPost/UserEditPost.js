@@ -9,15 +9,19 @@ import { useParams } from 'react-router-dom';
 import { UserNewPostTop } from '../UserNewPost';
 import { toast } from 'react-toastify';
 import { error } from '../../utils/logger';
+import { getQueryKey } from '../../utils/queryKey';
 
 const UserEditPost = () => {
   const { postId, userId } = useParams();
 
-  const { isLoading, isError, data } = useQuery(`post-${postId}`, () => postsService.getPost({ postId }));
+  const { isLoading, isError, data } = useQuery(
+    getQueryKey.post(postId), 
+    () => postsService.getPost({ postId })
+  );
 
   const cache = useQueryCache();
   const [editPost] = useMutation(postsService.editPost, {
-    onSuccess: () => cache.invalidateQueries(`post-${postId}`),
+    onSuccess: () => cache.invalidateQueries(getQueryKey.userPosts(userId)),
     throwOnError: true
   });
 

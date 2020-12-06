@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { Bar } from 'react-chartjs-2';
 import { makeStyles } from '@material-ui/core';
 import { UserNewPostTop } from '../UserNewPost';
+import { getQueryKey } from '../../utils/queryKey';
 
 const useStyles = makeStyles({
   canvasContainer: {
@@ -24,7 +25,12 @@ const useStyles = makeStyles({
 
 const UserStatistics = () => {
   const { userId } = useParams();
-  const { isError, isLoading, data } = useQuery(`edit-statistics-${userId}`, () => statisticsService.getEditPostStatistics({ userId }));
+  
+  const { isError, isLoading, data } = useQuery(
+    getQueryKey.editStatistics(userId), 
+    () => statisticsService.getEditPostStatistics({ userId })
+  );
+
   const cls = useStyles();
 
   if( isError ) return <Page><UnknownError /></Page>;

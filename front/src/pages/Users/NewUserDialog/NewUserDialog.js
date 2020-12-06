@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogTitle, DialogActions, TextField, Button } 
 import { useMutation, useQueryCache } from 'react-query';
 import { toast } from 'react-toastify';
 import { error } from '../../../utils/logger';
+import { getQueryKey } from '../../../utils/queryKey';
 
 /**
  * 
@@ -17,7 +18,7 @@ const NewUserDialog = ({
 
   const cache = useQueryCache();
   const [newUser] = useMutation(userService.newUser, {
-    onSuccess: () => cache.invalidateQueries('users'),
+    onSuccess: () => cache.invalidateQueries(getQueryKey.users()),
     throwOnError: true
   });
 

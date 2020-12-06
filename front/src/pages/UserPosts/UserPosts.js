@@ -8,6 +8,7 @@ import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import { Box, Button, makeStyles, Table, TableBody, TableCell, TableHead, TableRow, Typography, TableContainer } from '@material-ui/core';
 import { getPath } from '../../utils/path';
+import { getQueryKey } from '../../utils/queryKey';
 
 const useStyles = makeStyles({
   top: {
@@ -48,7 +49,10 @@ const useStyles = makeStyles({
 
 const UserPosts = () => {
   const { userId } = useParams();
-  const { isLoading, isError, data } = useQuery(`user-${userId}-posts`, () => postsService.getPosts({ userId }));
+  const { isLoading, isError, data } = useQuery(
+    getQueryKey.userPosts(userId), 
+    () => postsService.getPosts({ userId })
+  );
 
   const cls = useStyles();
 

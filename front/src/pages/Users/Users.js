@@ -8,6 +8,7 @@ import { useQuery } from 'react-query';
 import { Button, List, ListItem, ListItemText, ListSubheader, makeStyles, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { getPath } from '../../utils/path';
+import { getQueryKey } from '../../utils/queryKey';
 
 const useStyles = makeStyles((theme) => ({
   top: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Users = () => {
-  const { isLoading, isError, data } = useQuery('users', userService.getUsersList);
+  const { isLoading, isError, data } = useQuery(getQueryKey.users(), userService.getUsersList);
 
   const cls = useStyles();
 

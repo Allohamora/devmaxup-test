@@ -1,12 +1,11 @@
+import { replacePostId, replaceUserId } from './replace';
+
 const main = '/';
 const users = '/users';
 const userPosts = `${users}/:userId/posts`;
 const userPostsNew = `${userPosts}/new`;
 const userPostsEdit = `${userPosts}/:postId/edit`;
 const userStatistics = `${users}/:userId/statistics`;
-
-const replaceUserId = (str, userId) => str.replace(':userId', userId);
-const replacePostId = (str, postId) => str.replace(':postId', postId);
 
 export const getPath = {
   userPosts: (userId) => replaceUserId(userPosts, userId),

@@ -8,6 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { error } from '../../utils/logger';
 import { getPath } from '../../utils/path';
+import { getQueryKey } from '../../utils/queryKey';
 
 const useStyles = makeStyles({
   top: {
@@ -39,7 +40,7 @@ const UserNewPost = () => {
 
   const cache = useQueryCache();
   const [newPost] = useMutation(postsService.newPost, {
-    onSuccess: () => cache.invalidateQueries(`user-${userId}-posts`),
+    onSuccess: () => cache.invalidateQueries(getQueryKey.userPosts(userId)),
     throwOnError: true
   });
 
