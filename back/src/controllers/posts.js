@@ -69,6 +69,8 @@ router.put('/', routeDecorator(async ({ req, reply }) => {
 
   try {
     await postUpdateSchema.validate(post);
+
+    // remove dangerous data
     delete post.userId;
     delete post.id;
 
