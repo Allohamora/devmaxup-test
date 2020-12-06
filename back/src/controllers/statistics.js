@@ -1,13 +1,9 @@
 const EditPostLog = require('../models/EditPostLog');
 const createController = require('../utils/createController');
-const getTimestamp = require('../utils/getTimestamp');
 const routeDecorator = require('../utils/routeDecorator');
-const { Op } = require('sequelize');
 
 const controller = createController('/statistics');
 const { router } = controller;
-
-const TIMESTAMP_OFFSET = 24 * 60 * 60;
 
 // get statistics about user
 router.get('/edit-posts/:userId', routeDecorator(async ({ reply, req }) => {
@@ -16,13 +12,17 @@ router.get('/edit-posts/:userId', routeDecorator(async ({ reply, req }) => {
 
   let result;
 
+  // await Promise.all(  new Array(10).fill(null).map(() => EditPostLog.create({
+  //   postId: 1,
+  //   userId: 1,
+  //   timestamp: getTimestamp() - TIMESTAMP_OFFSET
+  // })));
+
   try {
     result = await EditPostLog.findAll({ 
+      attributes: ['id', 'timestamp'],
       where: { 
-        userId,
-        timestamp: {
-          [Op.gte]: getTimestamp() - TIMESTAMP_OFFSET
-        }
+        userId
       } 
     });
   } catch (e) {

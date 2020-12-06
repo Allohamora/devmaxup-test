@@ -1,5 +1,5 @@
-import { AppBar, Box, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import React from 'react';
+import { AppBar, Box, makeStyles, Toolbar, Typography, Container } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -19,7 +19,7 @@ const Page = ({ children }) => {
   return (
     <div>
       <AppBar position="static" >
-        <Toolbar>
+        <Toolbar component={Container} >
           <Typography 
             variant="h6" 
             component={Link} 
@@ -30,7 +30,7 @@ const Page = ({ children }) => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Box padding={2} >
+      <Box padding={2} component={Container} >
         {children}
       </Box>
     </div>
