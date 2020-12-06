@@ -24,6 +24,7 @@ router.get('/user/:userId', routeDecorator(async ({ req, reply }) => {
   reply({ success: true, message: `List of user ${userId} posts!`, data: result });
 }));
 
+// get post by id
 router.get('/:postId', routeDecorator(async ({ req, reply }) => {
   const { params } = req;
   const { postId } = params;
