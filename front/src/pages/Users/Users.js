@@ -25,10 +25,10 @@ const Users = () => {
 
   const cls = useStyles();
 
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const openModal = () => setOpen(true);
-  const closeModal = () => setOpen(false);
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
 
   if( isLoading ) return <CircularProgress />;
   if( error ) return <UnknownError />;
@@ -61,7 +61,7 @@ const Users = () => {
       </List>
 
       <NewUserDialog 
-        open={open}
+        isOpen={isOpen}
         onClose={closeModal}
       />
     </Page>

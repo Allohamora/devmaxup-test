@@ -7,11 +7,11 @@ import { error } from '../../../utils/logger';
 
 /**
  * 
- * @param {{onClose?: () => void; open?: boolean}} props 
+ * @param {{onClose?: () => void; isOpen?: boolean}} props 
  */
 const NewUserDialog = ({
   onClose,
-  open
+  isOpen
 }) => {
   const [name, setName] = useState('');
 
@@ -30,7 +30,7 @@ const NewUserDialog = ({
       error(e);
       toast('Error with add new user!', { type: 'error' });
     }
-    
+
     onClose();
   }
 
@@ -39,7 +39,7 @@ const NewUserDialog = ({
   const isDisabled = name.trim().length < 3;
 
   return (
-    <Dialog open={open} onClose={onClose} >
+    <Dialog open={isOpen} onClose={onClose} >
       <DialogTitle>Add new user</DialogTitle>
       <DialogContent>
         <TextField 
