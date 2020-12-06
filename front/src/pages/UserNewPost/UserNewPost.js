@@ -1,11 +1,11 @@
-import { Box, Button, makeStyles } from '@material-ui/core';
 import React from 'react';
-import { useMutation, useQueryCache } from 'react-query';
-import { Link, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Page from '../../components/Page';
 import PostForm from '../../components/PostForm/PostForm';
 import postsService from '../../services/postsService';
+import { Box, Button, makeStyles } from '@material-ui/core';
+import { useMutation, useQueryCache } from 'react-query';
+import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { error } from '../../utils/logger';
 import { getPath } from '../../utils/path';
 
