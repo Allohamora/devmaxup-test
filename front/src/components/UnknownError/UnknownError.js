@@ -1,18 +1,19 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { paths } from '../../utils/path';
 
 const UnknownError = () => {
   return (
     <div>
-      Unknown Error! 
+      <div>Unknown Error! </div>
       <Button 
         variant="contained" 
         color="primary" 
         component={Link} 
-        to="/" 
+        to={paths.main}
       >
-        to /
+        to {paths.main}
       </Button>
     </div>
   );

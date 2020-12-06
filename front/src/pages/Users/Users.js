@@ -3,15 +3,16 @@ import UnknownError from '../../components/UnknownError';
 import userService from '../../services/userService';
 import Page from '../../components/Page';
 import NewUserDialog from './NewUserDialog';
+import Loader from '../../components/Loader';
 import { useQuery } from 'react-query';
-import { Button, CircularProgress, List, ListItem, ListItemText, ListSubheader, makeStyles, Typography } from '@material-ui/core';
+import { Button, List, ListItem, ListItemText, ListSubheader, makeStyles, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { getPath } from '../../utils/path';
 
 const useStyles = makeStyles((theme) => ({
   top: {
     display: 'flex',
-    justifyContent: 'flex-end',
-    padding: 10,
+    justifyContent: 'flex-end'
   },
   list: {
     width: '100%',
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Users = () => {
-  const { isLoading, error, data } = useQuery('users', userService.getUsersList);
+  const { isLoading, isError, data } = useQuery('users', userService.getUsersList);
 
   const cls = useStyles();
 
@@ -30,8 +31,8 @@ const Users = () => {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
-  if( isLoading ) return <CircularProgress />;
-  if( error ) return <UnknownError />;
+  if( isError ) return <Page><UnknownError /></Page>;
+  if( isLoading ) return <Page><Loader /></Page>;
 
   return (
     <Page>
@@ -51,8 +52,13 @@ const Users = () => {
       >
         {
           data.map(({ id, name }) => (
-            <ListItem key={id} button >
-              <ListItemText component={Link} to={`/${id}`} >
+            <ListItem 
+              button 
+              key={id} 
+              component={Link} 
+              to={getPath.userPosts(id)} 
+            >
+              <ListItemText>
                 {id} / {name}
               </ListItemText>
             </ListItem>

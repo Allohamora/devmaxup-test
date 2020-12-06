@@ -7,11 +7,11 @@ class UserRestService {
     const result = await restApi.get(baseUrl);
 
     /**
-     * @type {{data: { data: { id: number, name: string }[] }}}
+     * @type {{ data: { id: number, name: string }[] }}
      */
-    const { data: body } = result;
+    const { data } = result.data;
 
-    return body.data;
+    return data;
   };
 
   /**
@@ -21,9 +21,9 @@ class UserRestService {
   newUser = async ({ name }) => {
     const result = await restApi.post(baseUrl, { name })
 
-    const { data: body } = result;
+    const { success } = result.data;
 
-    return body.success;
+    return success;
   }
 };
 
