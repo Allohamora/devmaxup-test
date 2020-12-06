@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import UnknownError from '../../components/UnknownError';
 import userService from '../../services/userService';
 import Page from '../../components/Page';
-import { useQuery, useMutation, useQueryCache } from 'react-query';
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, List, ListItem, ListItemText, ListSubheader, makeStyles, TextField, Typography } from '@material-ui/core';
+import NewUserDialog from './NewUserDialog';
+import { useQuery } from 'react-query';
+import { Button, CircularProgress, List, ListItem, ListItemText, ListSubheader, makeStyles, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,31 +21,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Users = () => {
-  const cache = useQueryCache();
   const { isLoading, error, data } = useQuery('users', userService.getUsersList);
-  const [newUser] = useMutation(userService.newUser, {
-    onSuccess: () => cache.invalidateQueries('users')
-  });
+
   const cls = useStyles();
 
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState('');
-
-  const addNewUser = () => {
-    newUser(name);
-    setName('');
-    setOpen(false);
-  }
-
-  const nameHandler = (e) => {
-    setName(e.target.value);
-  }
 
   const openModal = () => setOpen(true);
-  const closeModal = () => {
-    setOpen(false);
-    setName('');
-  };
+  const closeModal = () => setOpen(false);
 
   if( isLoading ) return <CircularProgress />;
   if( error ) return <UnknownError />;
@@ -76,31 +60,10 @@ const Users = () => {
         }
       </List>
 
-      <Dialog open={open} onClose={closeModal} >
-        <DialogTitle>Add new user</DialogTitle>
-        <DialogContent>
-          <TextField 
-            autoFocus
-            fullWidth
-            variant="outlined"
-            label="Name"
-            type="text"
-            value={name}
-            onChange={nameHandler}
-            
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button 
-            variant="outlined" 
-            color="primary" 
-            onClick={addNewUser}
-            disabled={name.trim().length < 3}
-          >
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <NewUserDialog 
+        open={open}
+        onClose={closeModal}
+      />
     </Page>
   );
 };

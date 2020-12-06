@@ -16,9 +16,9 @@ class UserRestService {
 
   /**
    * 
-   * @param {string} name 
+   * @param {{name: string}} params 
    */
-  newUser = async (name) => {
+  newUser = async ({ name }) => {
     const result = await restApi.post(baseUrl, { name })
 
     const { data: body } = result;
