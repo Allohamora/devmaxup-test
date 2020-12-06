@@ -7,7 +7,10 @@ const routeDecorator = require('./utils/routeDecorator');
 const cors = require('cors');
 
 dotenv.config();
-const { PORT, NODE_ENV } = process.env;
+const { 
+  PORT = 3000, 
+  NODE_ENV = 'development'
+} = process.env;
 
 const isProduction = NODE_ENV === 'production';
 
