@@ -19,15 +19,21 @@ const useStyles = makeStyles({
 
 /**
  * 
- * @param {{ onSubmit: (data: {title: string, body: string}) => void, title: string }} props 
+ * @param {{ 
+  * onSubmit: (data: {title: string, body: string}) => void, 
+  * defaultValues: { title: string, body: string }, 
+  * title: string 
+ * }} props 
  */
 const PostForm = ({
   onSubmit = (data) => console.log(data),
+  defaultValues,
   title = 'PostForm'
 }) => {
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(postSchema),
-    mode: 'all'
+    mode: 'all',
+    defaultValues
   });
 
   const cls = useStyles();

@@ -14,12 +14,28 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'flex-end'
   }
-})
+});
 
-const UserNewPost = () => {
+export const UserNewPostTop = () => {
   const { userId } = useParams();
 
   const cls = useStyles();
+
+  return (
+    <Box paddingBottom={1} className={cls.top} >
+      <Button 
+        variant="outlined"
+        component={Link} 
+        to={getPath.userPosts(userId)} 
+      >
+        back
+      </Button>
+    </Box>
+  )
+};
+
+const UserNewPost = () => {
+  const { userId } = useParams();
 
   const cache = useQueryCache();
   const [newPost] = useMutation(postsService.newPost, {
@@ -30,7 +46,7 @@ const UserNewPost = () => {
   const onSubmit = async ({ title, body }) => {
     try {
       await newPost({ userId, title, body });
-      toast('Success added new post!', { type: 'success' });
+      toast('Success added the new post!', { type: 'success' });
     } catch (e) {
       error(e);
       toast('Error with saving new post!', { type: 'error' });
@@ -39,15 +55,8 @@ const UserNewPost = () => {
 
   return (
     <Page>
-      <Box paddingBottom={1} className={cls.top} >
-        <Button 
-          variant="outlined"
-          component={Link} 
-          to={getPath.userPosts(userId)} 
-        >
-          back
-        </Button>
-      </Box>
+      <UserNewPostTop />
+      
       <PostForm 
         onSubmit={onSubmit}
         title="New Post Form"

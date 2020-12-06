@@ -9,7 +9,7 @@ const controller = createController('/posts');
 const { router } = controller;
 
 // get posts by userId
-router.get('/:userId', routeDecorator(async ({ req, reply }) => {
+router.get('/user/:userId', routeDecorator(async ({ req, reply }) => {
   const { params } = req;
   const { userId } = params;
 
@@ -23,6 +23,21 @@ router.get('/:userId', routeDecorator(async ({ req, reply }) => {
 
   reply({ success: true, message: `List of user ${userId} posts!`, data: result });
 }));
+
+router.get('/:postId', routeDecorator(async ({ req, reply }) => {
+  const { params } = req;
+  const { postId } = params;
+
+  let result;
+
+  try {
+    result = await Post.findAll({ where: { id: postId } })
+  } catch (e) {
+    return reply({ success: false, message: 'Error with finded posts!', data: e });
+  }
+
+  reply({ success: true, message: `Post with id: ${postId}`, data: result[0] });
+}))
 
 // create new post
 router.post('/', routeDecorator(async ({ req, reply }) => {
@@ -49,10 +64,12 @@ router.put('/', routeDecorator(async ({ req, reply }) => {
   
   const post = { ...body };
 
-  const { id, userId } = post;
+  const { id, userId } = body;
 
   try {
     await postUpdateSchema.validate(post);
+    delete post.userId;
+    delete post.id;
 
     await Post.update(
       post, 
