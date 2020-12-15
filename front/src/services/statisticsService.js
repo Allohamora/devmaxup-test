@@ -7,7 +7,7 @@ class StatisticsRestService {
     const result = await restApi.get(`${baseUrl}/edit-posts/${userId}`);
 
     /**
-     * @type {{ data: { id: number, timestamp: number }[] }}
+     * @type {{ data: { date: string, count: number }[] }}
      */
     const { data } = result.data;
 

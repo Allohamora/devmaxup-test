@@ -36,14 +36,8 @@ const UserStatistics = () => {
   if( isError ) return <Page><UnknownError /></Page>;
   if( isLoading ) return <Page><Loader /></Page>;
 
-  const state = data.reduce((state, { timestamp }) => {
-    const date = new Date(timestamp * 1000);
-    const formatter = Intl.DateTimeFormat([], { year: 'numeric', month: 'numeric', day: 'numeric' });
-
-    const formatted = formatter.format(date);
-
-    const inState = state[formatted];
-    state[formatted] = (inState ? inState : 0) + 1;
+  const state = data.reduce((state, { date, count }) => {
+    state[date] = count;
 
     return state;
   }, {});

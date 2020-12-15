@@ -1,4 +1,4 @@
-const EditPostLog = require('../models/EditPostLog');
+const editPostStatisticService = require('../services/editPostStatisticService');
 const createController = require('../utils/createController');
 const routeDecorator = require('../utils/routeDecorator');
 
@@ -12,19 +12,8 @@ router.get('/edit-posts/:userId', routeDecorator(async ({ reply, req }) => {
 
   let result;
 
-  // await Promise.all(  new Array(10).fill(null).map(() => EditPostLog.create({
-  //   postId: 1,
-  //   userId: 1,
-  //   timestamp: getTimestamp() - TIMESTAMP_OFFSET
-  // })));
-
   try {
-    result = await EditPostLog.findAll({ 
-      attributes: ['id', 'timestamp'],
-      where: { 
-        userId
-      } 
-    });
+    result = await editPostStatisticService.getStatistic(userId);
   } catch (e) {
     return reply({ success: false, message: 'Error with finding logs!', data: e });
   }

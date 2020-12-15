@@ -1,9 +1,8 @@
-const Post = require('../models/Post');
-const EditPostLog = require('../models/EditPostLog');
 const createController = require('../utils/createController');
 const routeDecorator = require('../utils/routeDecorator');
-const { postSchema, postUpdateSchema } = require('../validation/post');
 const { error } = require('../utils/logger');
+const postsService = require('../services/postsService');
+const editPostStatisticService = require('../services/editPostStatisticService');
 
 const controller = createController('/posts');
 const { router } = controller;
@@ -16,7 +15,7 @@ router.get('/user/:userId', routeDecorator(async ({ req, reply }) => {
   let result;
 
   try {
-    result = await Post.findAll({ where: { userId } });
+    result = await postsService.getPostsByUserId(userId);
   } catch (e) {
     return reply({ success: false, message: 'Error with finded posts!', data: e });
   }
@@ -32,26 +31,24 @@ router.get('/:postId', routeDecorator(async ({ req, reply }) => {
   let result;
 
   try {
-    result = await Post.findAll({ where: { id: postId } })
+    result = await postsService.getPostById(postId);
   } catch (e) {
     return reply({ success: false, message: 'Error with finded posts!', data: e });
   }
 
-  reply({ success: true, message: `Post with id: ${postId}`, data: result[0] });
+  reply({ success: true, message: `Post with id: ${postId}`, data: result });
 }))
 
 // create new post
 router.post('/', routeDecorator(async ({ req, reply }) => {
   const { body } = req;
   
-  const post = { ...body, id: undefined };
+  const postData = { ...body, id: undefined };
 
   let result;
 
   try {
-    await postSchema.validate(post);
-
-    result = await Post.create(post);
+    result = await postsService.validateAndCreatePost(postData);
   } catch (e) {
     return reply({ success: false, message: 'Error with creating', data: e });
   }
@@ -63,27 +60,18 @@ router.post('/', routeDecorator(async ({ req, reply }) => {
 router.put('/', routeDecorator(async ({ req, reply }) => {
   const { body } = req;
   
-  const post = { ...body };
+  const postData = { ...body };
 
   const { id, userId } = body;
 
   try {
-    await postUpdateSchema.validate(post);
-
-    // remove dangerous data
-    delete post.userId;
-    delete post.id;
-
-    await Post.update(
-      post, 
-      { where: { id } }
-    );
+    await postsService.validateAndUpdatePost(postData);
   } catch (e) {
     return reply({ success: false, message: 'Error with updating', data: e });
   }
 
   try {
-    await EditPostLog.create({ postId: id, userId });
+    await editPostStatisticService.createOrUpdateTodayLog(id, userId);
   } catch (e) {
     error(e);
   }
